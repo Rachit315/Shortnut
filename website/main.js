@@ -1,7 +1,7 @@
 // Shortnut landing page: links/config, release info, format tabs and the interactive drag + Shift demo.
 (() => {
   const cfg = window.SHORTNUT || {};
-  const repo = (cfg.repo || 'https://github.com/shortnut/shortnut').replace(/\/$/, '');
+  const repo = (cfg.repo || 'https://github.com/Rachit315/Shortnut').replace(/\/$/, '');
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 

@@ -80,7 +80,7 @@ app/dist/win-unpacked/Shortnut.exe --self-test report.json
    - **Recommended:** push a tag (`git tag v1.0.0 && git push --tags`). The GitHub Action builds and self-tests the installer and attaches it to a GitHub Release as `Shortnut-Setup.exe`. The site links to `…/releases/latest/download/Shortnut-Setup.exe` by default.
    - **Or self-host:** run `npm run dist` and deploy `website/downloads/` with the site. The page detects `release.json` and links to the local file. Many static hosts cap single files at about 100 MB and the installer is about 130 MB, so check your host's limit first.
 3. Deploy:
-   - **Vercel:** import the repo and set *Root Directory* to `website` (uses `website/vercel.json`).
+   - **Vercel:** import the repo as-is and leave *Root Directory* empty. The root `vercel.json` publishes `website/` with no build step.
    - **Netlify:** import the repo (uses `netlify.toml`, publish dir `website`).
    - **Cloudflare Pages / GitHub Pages:** publish the `website` folder; no build command.
 

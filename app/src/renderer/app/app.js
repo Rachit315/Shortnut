@@ -4,7 +4,7 @@ import { createWheel } from '../shared/wheel.js';
 
 const api = window.shortnut;
 const view = document.getElementById('view');
-const REPO_URL = 'https://github.com/shortnut/shortnut';
+const REPO_URL = 'https://github.com/Rachit315/Shortnut';
 
 let settings = await api.invoke('settings:get');
 let appState = await api.invoke('app:getState');
