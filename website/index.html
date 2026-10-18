@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shortnut — Convert files with just drag + Shift</title>
+    <meta name="description" content="Shortnut is a free, open-source Windows app. Drag any file, tap Shift, and drop it on a format: images, PDFs, Word docs, video and audio — converted, compressed or edited in place, 100% offline." />
+    <meta name="theme-color" content="#ff5a36" />
+    <link rel="icon" href="assets/favicon.ico" sizes="any" />
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Shortnut — Convert files with just drag + Shift" />
+    <meta property="og:description" content="Drag any file, tap Shift, drop on a format. Free and open source for Windows." />
+    <meta property="og:image" content="assets/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav" id="top">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="Shortnut home"><img src="assets/logo.svg" alt="" width="30" height="30" /><span>Shortnut</span></a>
+        <nav class="links" aria-label="Primary">
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#formats">Formats</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav-cta">
+          <a class="gh" data-repo href="#" aria-label="Source code on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+          <a class="btn btn-dark" data-download href="#download"><svg class="win" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z"/></svg>Download</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ HERO ============ -->
+      <section class="hero">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow"><i></i>Free &amp; open source · Windows 10 &amp; 11</span>
+            <h1>Convert files with just <span class="keys"><span class="key">drag</span> + <span class="key key-shift">⇧ Shift</span></span></h1>
+            <p class="sub">Drag any file, tap Shift, drop it on a format. Shortnut converts, compresses and edits images, PDFs, documents, video and audio right where they are. No uploads, no windows to open, no waiting.</p>
+            <div class="cta-row">
+              <a class="btn btn-primary btn-lg" data-download href="#download">
+                <svg class="win" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z"/></svg>
+                Download for Windows
+              </a>
+              <a class="btn btn-ghost btn-lg" href="#demo">Try it in your browser</a>
+            </div>
+            <p class="meta" id="release-meta">MIT licensed · 100% offline · No account</p>
+          </div>
+
+          <!-- Interactive demo -->
+          <div class="demo" id="demo" aria-label="Interactive demo: drag a file and press Shift">
+            <div class="desk" id="desk">
+              <div class="desk-bar"><span></span><span></span><span></span><b>Desktop</b></div>
+              <div class="desk-hint" id="desk-hint">Drag a file, then tap <kbd>Shift</kbd></div>
+              <div class="files" id="files"></div>
+              <div class="dwheel" id="dwheel" hidden></div>
+              <div class="dtoast" id="dtoast" hidden></div>
+              <div class="ghost-cursor" id="ghost" aria-hidden="true"></div>
+              <button class="shift-btn" id="shift-btn" type="button" aria-label="Press Shift">⇧ Shift</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ STRIP ============ -->
+      <section class="strip" aria-label="Where it works">
+        <div class="wrap strip-inner">
+          <span>Works wherever you can drag a file</span>
+          <ul>
+            <li>File Explorer</li>
+            <li>Desktop</li>
+            <li>Browser downloads</li>
+            <li>Email attachments</li>
+            <li>Chat apps</li>
+            <li>Right-click menu</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ HOW ============ -->
+      <section class="section" id="how">
+        <div class="wrap">
+          <p class="kicker">How it works</p>
+          <h2>Three moves. Zero menus.</h2>
+          <div class="steps">
+            <article class="step">
+              <div class="step-art art-drag" aria-hidden="true"><div class="mini-file"></div></div>
+              <span class="num">1</span>
+              <h3>Drag any file</h3>
+              <p>Pick up a photo, PDF, video or document from anywhere in Windows, just like you always do.</p>
+            </article>
+            <article class="step">
+              <div class="step-art art-key" aria-hidden="true"><span class="key big">⇧ Shift</span></div>
+              <span class="num">2</span>
+              <h3>Tap Shift</h3>
+              <p>A wheel of options opens under your cursor. Tap Shift again to flip between formats and tools.</p>
+            </article>
+            <article class="step">
+              <div class="step-art art-drop" aria-hidden="true"><div class="mini-wheel"></div></div>
+              <span class="num">3</span>
+              <h3>Drop on a choice</h3>
+              <p>Release on JPG, PDF, MP3 or Compress. The new file lands next to the original, which is never touched.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FEATURES ============ -->
+      <section class="section alt" id="features">
+        <div class="wrap">
+          <p class="kicker">Everything in one gesture</p>
+          <h2>A whole toolbox behind one key.</h2>
+          <div class="features">
+            <article class="feature big">
+              <div class="f-icon" data-ico="convert"></div>
+              <h3>Convert 40+ formats</h3>
+              <p>JPG, PNG, WEBP, AVIF, HEIC, GIF, ICO, PDF, DOCX, Markdown, MP4, MOV, WEBM, MP3, WAV, FLAC and more. Batch convert by dragging several files at once.</p>
+              <div class="chips"><span>PNG → WEBP</span><span>HEIC → JPG</span><span>PDF → DOCX</span><span>MOV → MP4</span><span>MP4 → GIF</span><span>WAV → MP3</span></div>
+            </article>
+            <article class="feature"><div class="f-icon" data-ico="compress"></div><h3>Compress</h3><p>Shrink images, PDFs, videos and audio. See exactly how much you saved.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="crop"></div><h3>Crop</h3><p>Free or locked ratios (1:1, 16:9, 4:3…) with pixel-exact sizing.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="image"></div><h3>Add background</h3><p>Gradients, colors or your own image with padding, rounded corners and shadow. Perfect for screenshots.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="pen"></div><h3>Annotate</h3><p>Arrows, boxes, circles, highlighter, pen and text with undo.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="eyeoff"></div><h3>Redact</h3><p>Black out, pixelate or blur private details. Permanently, in the saved copy.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="tag"></div><h3>Metadata</h3><p>See what a photo reveals, like GPS location and camera, and strip it in one click.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="sliders"></div><h3>Edit</h3><p>Brightness, contrast, saturation, looks, rotate, flip and resize.</p></article>
+            <article class="feature"><div class="f-icon" data-ico="split"></div><h3>PDF tools</h3><p>Merge, split, rotate, compress, extract pages and edit document info.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FORMATS ============ -->
+      <section class="section" id="formats">
+        <div class="wrap">
+          <p class="kicker">Formats</p>
+          <h2>What you can drop, and what you get.</h2>
+          <div class="tabs" role="tablist" id="fmt-tabs"></div>
+          <div class="fmt-panel" id="fmt-panel" role="tabpanel"></div>
+        </div>
+      </section>
+
+      <!-- ============ PRIVACY ============ -->
+      <section class="privacy">
+        <div class="wrap privacy-grid">
+          <div>
+            <p class="kicker light">Private by design</p>
+            <h2>Your files never leave your PC.</h2>
+            <p>Every conversion runs locally on your machine. Nothing is uploaded, there's no account, and there's no telemetry. Shortnut works on a plane, and on confidential documents.</p>
+          </div>
+          <ul class="checks">
+            <li>Runs fully offline</li>
+            <li>Originals are never modified</li>
+            <li>Never overwrites: duplicates become “(2)”</li>
+            <li>Strips location data by default</li>
+            <li>Open source: read every line</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ OPEN SOURCE ============ -->
+      <section class="section">
+        <div class="wrap oss">
+          <div>
+            <p class="kicker">Open source</p>
+            <h2>Free, forever. MIT licensed.</h2>
+            <p class="lead">Shortnut is built in the open on Electron, FFmpeg, libvips, pdf.js and pdf-lib. Fork it, audit it, improve it. Pull requests are welcome.</p>
+            <div class="cta-row">
+              <a class="btn btn-dark" data-repo href="#">Star on GitHub</a>
+              <a class="btn btn-ghost" data-repo-path="/blob/main/LICENSE" href="#">Read the license</a>
+            </div>
+          </div>
+          <pre class="code" aria-label="Build from source"><code><span class="c"># build it yourself</span>
+git clone <span data-repo-text>https://github.com/shortnut/shortnut</span>
+cd shortnut/app
+npm install
+npm start        <span class="c"># run</span>
+npm run dist     <span class="c"># make the installer</span></code></pre>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section class="section alt" id="faq">
+        <div class="wrap narrow">
+          <p class="kicker">FAQ</p>
+          <h2>Questions, answered.</h2>
+          <div class="faq">
+            <details open>
+              <summary>Is Shortnut really free?</summary>
+              <p>Yes. Shortnut is free and open source under the MIT License. There are no accounts, limits or ads.</p>
+            </details>
+            <details>
+              <summary>Does it work on Mac or Linux?</summary>
+              <p>Not yet. Shortnut is built for Windows 10 and 11 (64-bit) right now.</p>
+            </details>
+            <details>
+              <summary>Where do converted files go?</summary>
+              <p>Right next to the original, with the same name and the new extension. If a file with that name already exists, Shortnut adds “(2)”, so nothing is ever overwritten. You can pick a fixed output folder in Settings.</p>
+            </details>
+            <details>
+              <summary>I pressed Shift but nothing happened.</summary>
+              <p>Make sure you are actively dragging (the mouse button is held and the file is moving), and that Shortnut is running in the system tray. You can change the key to Ctrl or Alt in Settings. Files can also be opened from the right-click menu → “Convert with Shortnut”.</p>
+            </details>
+            <details>
+              <summary>Windows shows a SmartScreen warning when I install.</summary>
+              <p>Community builds aren't code-signed yet, so Windows may say the publisher is unknown. Click “More info” → “Run anyway”. You can also build the installer yourself from source.</p>
+            </details>
+            <details>
+              <summary>Does dragging with Shift move my file?</summary>
+              <p>No. Shortnut always accepts drops as a copy, so the original stays exactly where it was.</p>
+            </details>
+            <details>
+              <summary>How do I uninstall it?</summary>
+              <p>Settings → Apps → Installed apps → Shortnut → Uninstall. The right-click menu entries are removed too.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DOWNLOAD ============ -->
+      <section class="final" id="download">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="wrap final-inner">
+          <img src="assets/logo.svg" alt="" width="84" height="84" />
+          <h2>Make every drag count.</h2>
+          <p>Download Shortnut for Windows and convert your first file in ten seconds.</p>
+          <a class="btn btn-light btn-lg" data-download data-direct href="#">
+            <svg class="win" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z"/></svg>
+            Download for Windows
+          </a>
+          <p class="fine" id="download-fine">Windows 10/11 · 64-bit · Free &amp; open source</p>
+          <p class="fine os-note" id="os-note" hidden>Looks like you're not on Windows. Shortnut currently runs on Windows only.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="24" height="24" /><span>Shortnut</span></a>
+        <p>© <span id="year">2026</span> Shortnut contributors · MIT License</p>
+        <nav aria-label="Footer">
+          <a data-repo href="#">GitHub</a>
+          <a data-repo-path="/issues" href="#">Report a bug</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="main.js" defer></script>
+  </body>
+</html>

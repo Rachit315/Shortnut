@@ -1,0 +1,55 @@
+# Builds the Windows installer and attaches it to a GitHub Release when a tag like v1.0.0 is pushed.
+# The installer is uploaded twice: versioned, and as Shortnut-Setup.exe so that
+# https://github.com/<owner>/<repo>/releases/latest/download/Shortnut-Setup.exe always works.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - run: npm ci
+
+      - name: Engine tests
+        run: npm test
+
+      - name: Build installer
+        run: npm run icons && npx electron-builder --win --x64 --publish never
+
+      - name: Self-test the packaged app
+        shell: pwsh
+        run: |
+          $p = Start-Process dist\win-unpacked\Shortnut.exe -ArgumentList '--self-test', "$env:RUNNER_TEMP\selftest.json" -PassThru -Wait
+          Get-Content "$env:RUNNER_TEMP\selftest.json"
+          if ($p.ExitCode -ne 0) { exit 1 }
+
+      - name: Prepare assets
+        shell: pwsh
+        run: Copy-Item dist\Shortnut-Setup-*.exe dist\Shortnut-Setup.exe
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            app/dist/Shortnut-Setup-*.exe
+            app/dist/Shortnut-Setup.exe
+          generate_release_notes: true

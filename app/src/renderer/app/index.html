@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:" />
+    <title>Shortnut</title>
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="../shared/wheel.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header class="titlebar">
+      <div class="brand"><img src="../shared/logo.svg" alt="" width="22" height="22" /><span>Shortnut</span></div>
+      <div id="status-pill" class="status-pill"></div>
+    </header>
+    <div class="shell">
+      <nav class="sidebar" id="nav">
+        <button data-route="home"><span data-icon="home"></span>Home</button>
+        <button data-route="activity"><span data-icon="clock"></span>Activity</button>
+        <button data-route="formats"><span data-icon="grid"></span>Formats</button>
+        <button data-route="settings"><span data-icon="settings"></span>Settings</button>
+        <button data-route="about"><span data-icon="info"></span>About</button>
+        <div class="sidebar-foot">
+          <div class="shortcut-hint">
+            <span>Drag</span><span class="plus">+</span><span class="kbd" id="side-key">Shift</span>
+          </div>
+        </div>
+      </nav>
+      <main id="view" tabindex="-1"></main>
+    </div>
+    <div id="dropveil"><div><span data-icon="upload"></span><strong>Drop to choose an action</strong></div></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

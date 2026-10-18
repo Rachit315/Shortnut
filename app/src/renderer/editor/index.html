@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:" />
+    <title>Shortnut editor</title>
+    <link rel="stylesheet" href="../shared/tokens.css" />
+    <link rel="stylesheet" href="editor.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <button class="x" id="close" title="Close (Esc)"></button>
+      <div class="title" id="title">Loading…</div>
+    </header>
+    <section class="stage" id="stage"><div class="spinner"></div></section>
+    <section class="controls" id="controls"></section>
+    <footer class="foot">
+      <button class="btn soft" id="reset">Reset</button>
+      <div class="foot-info" id="foot-info"></div>
+      <button class="btn primary" id="apply">Apply</button>
+    </footer>
+    <script type="module" src="editor.js"></script>
+  </body>
+</html>

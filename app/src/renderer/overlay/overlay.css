@@ -1,0 +1,78 @@
+html,
+body {
+  background: transparent;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+#stage {
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  transform: translate(-50%, -50%) scale(0.6) rotate(-25deg);
+  opacity: 0;
+  transition: opacity 0.14s ease, transform 0.22s cubic-bezier(0.2, 0.9, 0.25, 1.15);
+}
+
+body.open #stage {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) rotate(0);
+}
+
+body.closing #stage {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85);
+  transition-duration: 0.12s;
+}
+
+#wheel {
+  position: absolute;
+  inset: 0;
+}
+
+#wheel.swap .labels,
+#wheel.swap .segments {
+  animation: swap 0.24s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes swap {
+  from {
+    opacity: 0;
+    transform: rotate(-40deg) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+#wheel .labels,
+#wheel .segments {
+  transform-origin: 220px 220px;
+}
+
+#hint {
+  position: absolute;
+  left: 50%;
+  bottom: -26px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(30, 16, 10, 0.72);
+  color: #fff;
+  font: 600 11px var(--font);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+body.click-mode #hint,
+body.show-hint #hint {
+  opacity: 1;
+}
+
+body.click-mode .seg-label,
+body.click-mode #wheel {
+  cursor: pointer;
+}
