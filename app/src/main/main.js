@@ -1,4 +1,4 @@
-// Shortnut â€” main process entry.
+// Shortnut — main process entry.
 const { app, BrowserWindow, Tray, Menu, ipcMain, dialog, shell, nativeImage, nativeTheme, screen } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -104,7 +104,13 @@ function buildTrayMenu() {
       label: s.enabled ? 'Pause drag + Shift' : 'Resume drag + Shift',
       click: () => applySettings({ enabled: !s.enabled }),
     },
-    { label: 'Convert filesâ€¦', click: () => pickFiles() },
+    {
+      label: 'Run on startup',
+      type: 'checkbox',
+      checked: !!s.openAtLogin,
+      click: (item) => applySettings({ openAtLogin: item.checked }),
+    },
+    { label: 'Convert files…', click: () => pickFiles() },
     { label: 'Settings', click: () => showMain('settings') },
     { type: 'separator' },
     { label: 'Quit Shortnut', click: () => quit() },
@@ -113,7 +119,7 @@ function buildTrayMenu() {
 
 function createTray() {
   tray = new Tray(trayIcon());
-  tray.setToolTip('Shortnut â€” drag a file and press Shift');
+  tray.setToolTip('Shortnut — drag a file and press Shift');
   tray.setContextMenu(buildTrayMenu());
   tray.on('click', () => showMain());
 }

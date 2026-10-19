@@ -426,34 +426,66 @@ kbd {
   font: 500 0.1em/1.2 var(--body);
   letter-spacing: 0;
 }
+/* The Shift keycap: sized off the headline (1em = headline size), modelled on a real
+   keyboard key: raised top surface, solid depth edge underneath, icon + legend in the corners. */
 .h-key {
+  --depth: 0.075em;
+  position: relative;
   display: inline-flex;
-  align-items: center;
-  height: 0.86em;
-  padding: 0 0.2em 0.04em;
-  border-radius: 0.16em;
-  border: 0.018em solid var(--line);
-  border-bottom-width: 0.07em;
-  background: linear-gradient(120deg, #ff453a, #ff7a38 55%, #ffb347);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 1.62em;
+  height: 0.74em;
+  padding: 0.085em 0.11em 0.075em;
+  margin-bottom: var(--depth);
+  border: 0;
+  border-radius: 0.14em;
+  background: linear-gradient(180deg, #ff7d47 0%, #f6532a 100%);
   color: #fff;
-  font: 500 0.56em/1 var(--display);
-  letter-spacing: -0.03em;
-  box-shadow: 0 0.08em 0.2em rgba(200, 60, 20, 0.28);
-  transform: rotate(3deg);
-  animation: keypress 3.2s var(--ease) infinite;
+  font: 500 1em/1 var(--display);
+  letter-spacing: 0;
+  box-shadow:
+    inset 0 0.012em 0 rgba(255, 255, 255, 0.55),
+    inset 0 -0.03em 0.04em rgba(150, 30, 0, 0.18),
+    0 var(--depth) 0 #b9381a,
+    0 calc(var(--depth) + 0.05em) 0.16em rgba(170, 50, 15, 0.35);
+  rotate: 3deg;
+  transform: translateY(calc(var(--depth) * -0.5));
+  transition: translate 0.08s ease-out, box-shadow 0.08s ease-out;
+  cursor: default;
+}
+.h-key-ic {
+  width: 0.25em;
+  height: 0.25em;
+  opacity: 0.95;
+}
+.h-key-lb {
+  font-size: 0.215em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.95;
+}
+/* Pressed: the cap travels down onto its edge. */
+.h-key.is-pressed {
+  translate: 0 0.06em;
+  box-shadow:
+    inset 0 0.012em 0 rgba(255, 255, 255, 0.45),
+    inset 0 -0.03em 0.04em rgba(150, 30, 0, 0.18),
+    0 0.015em 0 #b9381a,
+    0 0.03em 0.06em rgba(170, 50, 15, 0.3);
 }
 @keyframes keypress {
   0%,
   70%,
   100% {
-    border-bottom-width: 0.07em;
     translate: 0 0;
   }
-  76% {
-    border-bottom-width: 0.035em;
-    translate: 0 0.035em;
+  74% {
+    translate: 0 0.06em;
   }
 }
+
 .hero-sub {
   margin-top: 26px;
   max-width: 560px;
@@ -622,6 +654,8 @@ kbd {
 .hl + .hl { animation-delay: 0.18s; }
 .h-chip { animation: hero-pop 0.8s cubic-bezier(0.3, 1.5, 0.5, 1) 0.35s both; }
 .h-key { animation: hero-drop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) 0.55s both, keypress 3.2s var(--ease) 1.4s infinite; }
+/* With the motion script running, presses come from JS instead of the CSS loop. */
+.js-motion .h-key { animation: hero-drop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) 0.55s both; cursor: pointer; }
 .hero-sub { animation: hero-rise 0.9s var(--ease) 0.5s both; }
 .hero-ctas { animation: hero-rise 0.9s var(--ease) 0.58s both; }
 .hero-meta { animation: hero-rise 0.9s var(--ease) 0.66s both; }

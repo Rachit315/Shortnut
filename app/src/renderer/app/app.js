@@ -204,7 +204,7 @@ function settingsPage() {
       ${toggleRow('enabled', 'Drag + key shortcut', 'Open the wheel when you press the key while dragging files anywhere in Windows.')}
       ${segRow('triggerKey', 'Trigger key', 'The key you tap while dragging. Tap it again to switch between formats and tools.', [['shift', 'Shift'], ['ctrl', 'Ctrl'], ['alt', 'Alt']])}
       ${toggleRow('explorerMenu', 'Explorer right-click menu', 'Adds “Convert with Shortnut” to supported files (under “Show more options” on Windows 11).')}
-      ${toggleRow('openAtLogin', 'Start with Windows', 'Runs quietly in the system tray so the shortcut is always ready.')}
+      ${toggleRow('openAtLogin', 'Run on startup', 'Open Shortnut automatically whenever Windows starts or restarts. It waits quietly in the system tray, so drag + Shift always works.')}
     </div>
 
     <div class="group"><div class="group-title">Output</div>

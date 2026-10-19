@@ -121,7 +121,8 @@
   let nameIdx = 0;
   let spinBoost = 0;
   function pressKey() {
-    animate(key, { y: [0, 7, 0], borderBottomWidth: ['0.07em', '0.02em', '0.07em'] }, { duration: 0.32, ease: 'easeOut' });
+    key.classList.add('is-pressed');
+    setTimeout(() => key.classList.remove('is-pressed'), 150);
     spinBoost += 520;
     nameIdx = (nameIdx + 1) % NAMES.length;
     animate(chip, { scale: [1, 0.9, 1] }, { type: 'spring', bounce: 0.55, visualDuration: 0.45 });

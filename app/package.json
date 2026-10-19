@@ -1,7 +1,7 @@
 {
   "name": "shortnut",
   "productName": "Shortnut",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert, compress and edit any file with just drag + Shift.",
   "main": "src/main/main.js",
   "author": "Shortnut contributors",
