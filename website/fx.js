@@ -105,20 +105,24 @@
   const key = $('.h-key');
   const heroWheel = $('.h-wheel');
 
-  animate('.hero-top > *', { opacity: [0, 1], y: [-10, 0] }, { duration: 0.7, ease: EASE, delay: stagger(0.08) });
-  animate(lines, { opacity: [0, 1], y: [90, 0], rotate: [2.5, 0] }, { duration: 1.15, ease: EASE, delay: stagger(0.12, { startDelay: 0.1 }) });
-  animate(chip, { scale: [0.3, 1], rotate: [-20, -3] }, { type: 'spring', bounce: 0.45, visualDuration: 0.8, delay: 0.35 });
-  animate(heroWheel, { scale: [0, 1] }, { type: 'spring', bounce: 0.5, visualDuration: 0.8, delay: 0.75 });
-  animate('.hero-foot > *', { opacity: [0, 1], y: [28, 0] }, { duration: 1, ease: EASE, delay: stagger(0.1, { startDelay: 0.75 }) });
-  animate(key, { opacity: [0, 1], y: [-70, 0] }, { type: 'spring', bounce: 0.5, visualDuration: 0.7, delay: 0.55 });
+  const fan = $$('.fc');
 
-  // The headline lines drift apart as you scroll past them.
+  animate('.hero-pill', { opacity: [0, 1], y: [-10, 0] }, { duration: 0.7, ease: EASE });
+  animate(lines, { opacity: [0, 1], y: [60, 0] }, { duration: 1.1, ease: EASE, delay: stagger(0.1, { startDelay: 0.08 }) });
+  animate(chip, { scale: [0.3, 1], rotate: [-24, -6] }, { type: 'spring', bounce: 0.45, visualDuration: 0.8, delay: 0.35 });
+  animate(heroWheel, { scale: [0, 1] }, { type: 'spring', bounce: 0.5, visualDuration: 0.8, delay: 0.5 });
+  animate(key, { opacity: [0, 1], y: [-60, 0] }, { type: 'spring', bounce: 0.5, visualDuration: 0.7, delay: 0.55 });
+  animate('.hero-sub, .hero-ctas, .hero-meta', { opacity: [0, 1], y: [20, 0] }, { duration: 0.9, ease: EASE, delay: stagger(0.08, { startDelay: 0.5 }) });
+  // Cards fan up from below the stage, centre first.
+  const order = [3, 2, 4, 1, 5, 0, 6];
+  order.forEach((idx, i) => {
+    if (!fan[idx]) return;
+    animate(fan[idx], { opacity: [0, 1], translate: ['0 160px', '0 0'] }, { duration: 1.1, ease: EASE, delay: 0.7 + i * 0.06 });
+  });
+
+  // The fan opens a little wider as you scroll past the hero.
   scroll(
-    (p) => {
-      lines[0].style.translate = `${-p * 60}px 0`;
-      lines[1].style.translate = `${p * 60}px 0`;
-      lines[2].style.translate = `${-p * 30}px 0`;
-    },
+    (p) => fan.forEach((el, i) => (el.style.rotate = `${(i - 3) * p * 4}deg`)),
     { target: hero, offset: ['start start', 'end start'] }
   );
 
