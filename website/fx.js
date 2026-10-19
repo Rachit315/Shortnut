@@ -107,18 +107,8 @@
 
   const fan = $$('.fc');
 
-  animate('.hero-pill', { opacity: [0, 1], y: [-10, 0] }, { duration: 0.7, ease: EASE });
-  animate(lines, { opacity: [0, 1], y: [60, 0] }, { duration: 1.1, ease: EASE, delay: stagger(0.1, { startDelay: 0.08 }) });
-  animate(chip, { scale: [0.3, 1], rotate: [-24, -6] }, { type: 'spring', bounce: 0.45, visualDuration: 0.8, delay: 0.35 });
-  animate(heroWheel, { scale: [0, 1] }, { type: 'spring', bounce: 0.5, visualDuration: 0.8, delay: 0.5 });
-  animate(key, { opacity: [0, 1], y: [-60, 0] }, { type: 'spring', bounce: 0.5, visualDuration: 0.7, delay: 0.55 });
-  animate('.hero-sub, .hero-ctas, .hero-meta', { opacity: [0, 1], y: [20, 0] }, { duration: 0.9, ease: EASE, delay: stagger(0.08, { startDelay: 0.5 }) });
-  // Cards fan up from below the stage, centre first.
-  const order = [3, 2, 4, 1, 5, 0, 6];
-  order.forEach((idx, i) => {
-    if (!fan[idx]) return;
-    animate(fan[idx], { opacity: [0, 1], translate: ['0 160px', '0 0'] }, { duration: 1.1, ease: EASE, delay: 0.7 + i * 0.06 });
-  });
+  // The entrance itself is pure CSS (styles.css, "Hero entrance"), so the hero never waits on this script.
+  window.__shortnutFx = true;
 
   // The fan opens a little wider as you scroll past the hero.
   scroll(
@@ -145,7 +135,7 @@
     autoKey = setInterval(pressKey, 4500);
     return () => clearInterval(autoKey);
   });
-  key.addEventListener('click', () => {
+  key?.addEventListener('click', () => {
     clearInterval(autoKey);
     pressKey();
   });
@@ -170,8 +160,8 @@
     spinBoost *= Math.pow(0.05, dt);
     angle += dt * (26 + spinBoost) + v * 0.4;
     finalAngle += dt * 8 + v * 0.12;
-    heroWheel.style.rotate = `${angle}deg`;
-    finalWheel.style.rotate = `${finalAngle}deg`;
+    if (heroWheel) heroWheel.style.rotate = `${angle}deg`;
+    if (finalWheel) finalWheel.style.rotate = `${finalAngle}deg`;
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);

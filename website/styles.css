@@ -600,6 +600,40 @@ kbd {
   color: #0e4a19;
 }
 
+
+/* Hero entrance: pure CSS, so the hero can never get stuck hidden waiting for a script. */
+@keyframes hero-rise {
+  from { opacity: 0; translate: 0 22px; }
+}
+@keyframes hero-rise-lg {
+  from { opacity: 0; translate: 0 60px; }
+}
+@keyframes hero-pop {
+  from { opacity: 0; scale: 0.3; rotate: -18deg; }
+}
+@keyframes hero-drop {
+  from { opacity: 0; translate: 0 -0.6em; }
+}
+@keyframes hero-fan {
+  from { opacity: 0; translate: 0 160px; }
+}
+.hero-pill { animation: hero-rise 0.7s var(--ease) both; }
+.hl { animation: hero-rise-lg 1.1s var(--ease) 0.08s both; }
+.hl + .hl { animation-delay: 0.18s; }
+.h-chip { animation: hero-pop 0.8s cubic-bezier(0.3, 1.5, 0.5, 1) 0.35s both; }
+.h-key { animation: hero-drop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) 0.55s both, keypress 3.2s var(--ease) 1.4s infinite; }
+.hero-sub { animation: hero-rise 0.9s var(--ease) 0.5s both; }
+.hero-ctas { animation: hero-rise 0.9s var(--ease) 0.58s both; }
+.hero-meta { animation: hero-rise 0.9s var(--ease) 0.66s both; }
+.fc { animation: hero-fan 1.1s var(--ease) both; }
+.fc-4 { animation-delay: 0.7s; }
+.fc-3 { animation-delay: 0.76s; }
+.fc-5 { animation-delay: 0.82s; }
+.fc-2 { animation-delay: 0.88s; }
+.fc-6 { animation-delay: 0.94s; }
+.fc-1 { animation-delay: 1s; }
+.fc-7 { animation-delay: 1.06s; }
+
 /* format proof row, Jitter-style */
 .hero-proof {
   padding: 34px 0 20px;
@@ -2137,18 +2171,8 @@ html.lenis {
   pointer-events: none;
 }
 
-.js-motion .hero-pill,
-.js-motion .hl,
-.js-motion .hero-sub,
-.js-motion .hero-ctas,
-.js-motion .hero-meta,
-.js-motion .fc,
-.js-motion .h-key {
-  opacity: 0;
-}
 .js-motion .h-wheel,
 .js-motion .final-wheel,
-.js-motion .h-key,
 .js-motion .acc-item[open] .acc-body,
 .js-motion .acc-item[open] .bar i.hot,
 .js-motion .tags span {
