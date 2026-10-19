@@ -126,9 +126,8 @@ function applySettings(patch = {}) {
   watcher.setKey(s.triggerKey);
   if (s.enabled) watcher.start();
   else watcher.stop();
-  if (app.isPackaged && (patch.openAtLogin !== undefined || !before.onboarded)) {
-    app.setLoginItemSettings({ openAtLogin: !!s.openAtLogin, args: ['--hidden'] });
-  }
+  // Re-applied on every launch so the startup entry always points at the current install location.
+  if (app.isPackaged) app.setLoginItemSettings({ openAtLogin: !!s.openAtLogin, args: ['--hidden'] });
   if (app.isPackaged && patch.explorerMenu !== undefined && patch.explorerMenu !== before.explorerMenu) explorer.apply(!!s.explorerMenu);
   if (patch.theme !== undefined) nativeTheme.themeSource = s.theme;
   tray?.setContextMenu(buildTrayMenu());

@@ -97,6 +97,19 @@
   }
   resolveRelease();
 
+  // After a real download starts, explain the install steps (incl. the SmartScreen prompt for unsigned builds).
+  const installDlg = $('#install');
+  downloads.forEach((a) =>
+    a.addEventListener('click', () => {
+      if (document.documentElement.dataset.release !== 'ready' || !installDlg?.showModal) return;
+      $('#install-retry').href = a.href;
+      setTimeout(() => installDlg.showModal(), 250); // let the browser start the download first
+    })
+  );
+  installDlg?.addEventListener('click', (e) => {
+    if (e.target === installDlg || e.target.closest('[data-close]')) installDlg.close();
+  });
+
   /* ---------------- nav & reveal ---------------- */
 
   const nav = $('.nav');

@@ -458,6 +458,20 @@
       </div>
     </footer>
 
+    <!-- Shown after a Download click: how to get from the .exe to a working app. -->
+    <dialog class="install" id="install" aria-labelledby="install-title">
+      <button class="install-x" type="button" data-close aria-label="Close">×</button>
+      <p class="mono install-k">Download started</p>
+      <h2 id="install-title">Install Shortnut in under a minute</h2>
+      <ol class="install-steps">
+        <li><b>Open the installer.</b> Run <code>Shortnut-Setup.exe</code> from your browser's downloads bar or your Downloads folder.</li>
+        <li><b>If Windows shows “Windows protected your PC”,</b> click <em>More info</em> → <em>Run anyway</em>. The installer isn't code-signed yet, so Windows doesn't recognise the publisher.</li>
+        <li><b>Click through the installer.</b> No admin rights needed. Shortnut opens when it's done and keeps running in the system tray.</li>
+        <li><b>Try it:</b> drag any file, tap <kbd>Shift</kbd> while it's moving, and drop it on a format.</li>
+      </ol>
+      <p class="install-retry">Download didn't start? <a id="install-retry" href="#">Try again</a> · <a data-repo-path="/releases/latest" href="#">All release files</a></p>
+    </dialog>
+
     <script src="config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/motion@12.23.24/dist/motion.js" defer></script>

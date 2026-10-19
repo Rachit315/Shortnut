@@ -2238,3 +2238,106 @@ html.lenis {
     scroll-behavior: auto;
   }
 }
+
+/* ---------- install dialog (after Download) ---------- */
+.install {
+  width: min(560px, calc(100% - 32px));
+  padding: 32px 32px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 30px 80px rgba(60, 20, 5, 0.3);
+}
+.install::backdrop {
+  background: rgba(29, 19, 14, 0.45);
+  backdrop-filter: blur(3px);
+}
+.install[open] {
+  animation: install-in 0.28s var(--ease);
+}
+@keyframes install-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+.install-x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cream-2);
+  color: var(--ink-2);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.install-k {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.install h2 {
+  margin: 0 0 20px;
+  font: 600 26px/1.15 var(--display);
+  letter-spacing: -0.02em;
+}
+.install-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 14px;
+}
+.install-steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 40px;
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.install-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--cream);
+  font: 600 13px var(--mono);
+}
+.install-steps b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.install-steps code,
+.install-steps kbd {
+  font: 500 13px var(--mono);
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--cream-2);
+  border: 1px solid var(--line-2);
+}
+.install-retry {
+  margin: 22px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-2);
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.install-retry a {
+  color: var(--ink);
+}
+@media (max-width: 600px) {
+  .install { padding: 26px 20px 20px; }
+  .install h2 { font-size: 22px; }
+}
