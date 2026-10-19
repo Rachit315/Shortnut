@@ -17,93 +17,49 @@
 
   const formatSize = (n) => (n > 1048576 ? `${Math.round(n / 1048576)} MB` : `${Math.round(n / 1024)} KB`);
   const downloads = $$('[data-download]');
-  const finalBtn = $('[data-direct]');
-  const finalLabel = $('[data-label]', finalBtn);
 
-  // Until we know a real installer exists, every Download button scrolls to the download section: never a dead link.
-  downloads.forEach((a) => (a.href = '#download'));
+  // Every Download button is a direct link to the installer, already in the HTML, so a click downloads
+  // immediately even before (or without) JavaScript. GitHub serves this stable URL from the newest release.
+  const directUrl = cfg.downloadUrl || `${repo}/releases/latest/download/Shortnut-Setup.exe`;
+  const setLinks = (url) => downloads.forEach((a) => (a.href = url));
+  setLinks(directUrl);
 
-  function useInstaller(url, label) {
-    downloads.forEach((a) => {
-      a.href = url;
-      if (!/^https?:/.test(url) || url.startsWith(location.origin)) a.setAttribute('download', '');
-    });
-    if (label) {
-      $('#release-meta').textContent = `${label} · MIT licensed · 100% offline · No account`;
-      $('#download-fine').textContent = `${label} · Windows 10/11 · 64-bit · Free & open source`;
-    }
-    document.documentElement.dataset.release = 'ready';
+  function showVersion(label) {
+    $('#release-meta').textContent = `${label} · MIT licensed · 100% offline · No account`;
+    $('#download-fine').textContent = `${label} · Windows 10/11 · 64-bit · Free & open source`;
   }
 
-  // No public installer yet: say so honestly and offer the two things that do work.
-  function noInstaller() {
-    document.documentElement.dataset.release = 'none';
-    finalBtn.href = `${repo}/releases`;
-    finalBtn.removeAttribute('download');
-    finalLabel.textContent = 'Watch for the first release';
-    $('#no-release').hidden = false;
-    $('#release-meta').textContent = 'First release coming soon · MIT licensed · 100% offline';
-    $('#download-fine').textContent = 'Windows 10/11 · 64-bit · Free & open source';
-  }
-
-  // GitHub can't be reached (offline, rate limited): its "latest release" page always resolves, never 404s.
-  const releasesFallback = () => useInstaller(`${repo}/releases/latest`);
-
-  async function resolveRelease() {
-    if (cfg.downloadUrl) return useInstaller(cfg.downloadUrl);
-
-    // Opt-in self-hosting: `npm run dist` writes website/downloads/release.json next to the installer.
+  // Version + size are cosmetic: fetched in the background, never blocking or changing the download itself.
+  async function loadReleaseInfo() {
     if (cfg.selfHosted) {
       try {
         const rel = await fetch('downloads/release.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null));
         const url = rel && `downloads/${encodeURIComponent(rel.file)}`;
-        if (url && (await fetch(url, { method: 'HEAD' })).ok) return useInstaller(url, `v${rel.version} · ${formatSize(rel.size)}`);
+        if (url && (await fetch(url, { method: 'HEAD' })).ok) {
+          setLinks(url);
+          return showVersion(`v${rel.version} · ${formatSize(rel.size)}`);
+        }
       } catch {}
     }
-
     const api = repo.replace('https://github.com/', 'https://api.github.com/repos/');
-    if (api === repo) return releasesFallback();
-    const KEY = 'shortnut:release';
-    let rel;
+    if (api === repo) return;
     try {
-      const cached = JSON.parse(sessionStorage.getItem(KEY) || 'null');
-      if (cached && Date.now() - cached.at < 10 * 60 * 1000) rel = cached.rel;
+      const r = await fetch(`${api}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } });
+      if (!r.ok) return;
+      const j = await r.json();
+      const asset = (j.assets || []).find((a) => a.name === 'Shortnut-Setup.exe');
+      if (asset) showVersion(`${String(j.tag_name).replace(/^v?/, 'v')} · ${formatSize(asset.size)}`);
     } catch {}
-    if (rel === undefined) {
-      try {
-        // The list endpoint answers 200 with [] when nothing is published (".../latest" would log a 404).
-        const r = await fetch(`${api}/releases?per_page=10`, { headers: { Accept: 'application/vnd.github+json' } });
-        if (r.ok) {
-          const pick = (rels) => {
-            for (const j of rels) {
-              if (j.draft || j.prerelease) continue;
-              const exes = (j.assets || []).filter((a) => /\.exe$/i.test(a.name));
-              const asset = exes.find((a) => a.name === 'Shortnut-Setup.exe') || exes.find((a) => /setup/i.test(a.name)) || exes[0];
-              if (asset) return { url: asset.browser_download_url, version: j.tag_name, size: asset.size };
-            }
-            return null;
-          };
-          rel = pick(await r.json());
-        } else return releasesFallback();
-        try {
-          sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), rel }));
-        } catch {}
-      } catch {
-        return releasesFallback();
-      }
-    }
-    if (!rel) return noInstaller();
-    useInstaller(rel.url, `${String(rel.version).replace(/^v?/, 'v')} · ${formatSize(rel.size)}`);
   }
-  resolveRelease();
+  loadReleaseInfo();
 
-  // After a real download starts, explain the install steps (incl. the SmartScreen prompt for unsigned builds).
+  // After the download starts, explain the install steps (incl. the SmartScreen prompt for unsigned builds).
   const installDlg = $('#install');
   downloads.forEach((a) =>
     a.addEventListener('click', () => {
-      if (document.documentElement.dataset.release !== 'ready' || !installDlg?.showModal) return;
+      if (!installDlg?.showModal) return;
       $('#install-retry').href = a.href;
-      setTimeout(() => installDlg.showModal(), 250); // let the browser start the download first
+      setTimeout(() => installDlg.showModal(), 300); // let the browser start the download first
     })
   );
   installDlg?.addEventListener('click', (e) => {

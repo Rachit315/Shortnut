@@ -1877,16 +1877,6 @@ kbd {
   font-size: 17px;
   color: rgba(255, 255, 255, 0.85);
 }
-.no-release {
-  max-width: 440px;
-  margin-top: 18px;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.9);
-}
-.no-release a {
-  color: #fff;
-  text-underline-offset: 3px;
-}
 .fine {
   margin-top: 18px;
   font-size: 11px;
