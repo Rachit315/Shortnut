@@ -16,9 +16,15 @@
   if (!isWindows) $('#os-note').hidden = false;
 
   const formatSize = (n) => (n > 1048576 ? `${Math.round(n / 1048576)} MB` : `${Math.round(n / 1024)} KB`);
+  const downloads = $$('[data-download]');
+  const finalBtn = $('[data-direct]');
+  const finalLabel = $('[data-label]', finalBtn);
 
-  function setDownload(url, label) {
-    if (url) $$('[data-download]').forEach((a) => {
+  // Until we know a real installer exists, every Download button scrolls to the download section: never a dead link.
+  downloads.forEach((a) => (a.href = '#download'));
+
+  function useInstaller(url, label) {
+    downloads.forEach((a) => {
       a.href = url;
       if (!/^https?:/.test(url) || url.startsWith(location.origin)) a.setAttribute('download', '');
     });
@@ -26,21 +32,70 @@
       $('#release-meta').textContent = `${label} · MIT licensed · 100% offline · No account`;
       $('#download-fine').textContent = `${label} · Windows 10/11 · 64-bit · Free & open source`;
     }
+    document.documentElement.dataset.release = 'ready';
   }
 
-  // Default: the stable asset name the release workflow uploads to GitHub Releases.
-  setDownload(cfg.downloadUrl || `${repo}/releases/latest/download/Shortnut-Setup.exe`);
-  if (!cfg.downloadUrl) {
-    fetch('downloads/release.json', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then(async (rel) => {
-        // Only switch to the self-hosted file if it was actually deployed alongside release.json.
-        const url = `downloads/${encodeURIComponent(rel.file)}`;
-        const head = await fetch(url, { method: 'HEAD' });
-        setDownload(head.ok ? url : undefined, `v${rel.version} · ${formatSize(rel.size)}`);
-      })
-      .catch(() => {});
+  // No public installer yet: say so honestly and offer the two things that do work.
+  function noInstaller() {
+    document.documentElement.dataset.release = 'none';
+    finalBtn.href = `${repo}/releases`;
+    finalBtn.removeAttribute('download');
+    finalLabel.textContent = 'Watch for the first release';
+    $('#no-release').hidden = false;
+    $('#release-meta').textContent = 'First release coming soon · MIT licensed · 100% offline';
+    $('#download-fine').textContent = 'Windows 10/11 · 64-bit · Free & open source';
   }
+
+  // GitHub can't be reached (offline, rate limited): its "latest release" page always resolves, never 404s.
+  const releasesFallback = () => useInstaller(`${repo}/releases/latest`);
+
+  async function resolveRelease() {
+    if (cfg.downloadUrl) return useInstaller(cfg.downloadUrl);
+
+    // Opt-in self-hosting: `npm run dist` writes website/downloads/release.json next to the installer.
+    if (cfg.selfHosted) {
+      try {
+        const rel = await fetch('downloads/release.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null));
+        const url = rel && `downloads/${encodeURIComponent(rel.file)}`;
+        if (url && (await fetch(url, { method: 'HEAD' })).ok) return useInstaller(url, `v${rel.version} · ${formatSize(rel.size)}`);
+      } catch {}
+    }
+
+    const api = repo.replace('https://github.com/', 'https://api.github.com/repos/');
+    if (api === repo) return releasesFallback();
+    const KEY = 'shortnut:release';
+    let rel;
+    try {
+      const cached = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+      if (cached && Date.now() - cached.at < 10 * 60 * 1000) rel = cached.rel;
+    } catch {}
+    if (rel === undefined) {
+      try {
+        // The list endpoint answers 200 with [] when nothing is published (".../latest" would log a 404).
+        const r = await fetch(`${api}/releases?per_page=10`, { headers: { Accept: 'application/vnd.github+json' } });
+        if (r.ok) {
+          const pick = (rels) => {
+            for (const j of rels) {
+              if (j.draft || j.prerelease) continue;
+              const exes = (j.assets || []).filter((a) => /\.exe$/i.test(a.name));
+              const asset = exes.find((a) => a.name === 'Shortnut-Setup.exe') || exes.find((a) => /setup/i.test(a.name)) || exes[0];
+              if (asset) return { url: asset.browser_download_url, version: j.tag_name, size: asset.size };
+            }
+            return null;
+          };
+          rel = pick(await r.json());
+        } else return releasesFallback();
+        try {
+          sessionStorage.setItem(KEY, JSON.stringify({ at: Date.now(), rel }));
+        } catch {}
+      } catch {
+        return releasesFallback();
+      }
+    }
+    if (!rel) return noInstaller();
+    useInstaller(rel.url, `${String(rel.version).replace(/^v?/, 'v')} · ${formatSize(rel.size)}`);
+  }
+  resolveRelease();
 
   /* ---------------- nav & reveal ---------------- */
 
@@ -48,21 +103,6 @@
   const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-
-  const io = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      }),
-    { threshold: 0.12 }
-  );
-  $$('.step, .feature, .fmt-panel, .faq details, .checks li').forEach((el) => {
-    el.classList.add('reveal');
-    io.observe(el);
-  });
 
   /* ---------------- formats ---------------- */
 
@@ -83,11 +123,12 @@
   };
   const tabs = $('#fmt-tabs');
   const panel = $('#fmt-panel');
-  const tags = (list, hot) => `<div class="tags ${hot ? 'hot' : ''}">${list.map((x) => `<span>${x}</span>`).join('')}</div>`;
+  const tags = (list, cls = '') => `<div class="tags ${cls}">${list.map((x, i) => `<span style="animation-delay:${i * 25}ms">${x}</span>`).join('')}</div>`;
   function showFormat(name) {
     $$('button', tabs).forEach((b) => b.setAttribute('aria-selected', String(b.dataset.k === name)));
     const f = FORMATS[name];
-    panel.innerHTML = `<div><h4>Drop these</h4>${tags(f.opens)}</div><div><h4>Get these</h4>${tags(f.to, true)}</div><div><h4>Tools</h4>${f.tools.length ? tags(f.tools) : '<p style="margin:0;color:var(--ink-3)">Conversion only</p>'}</div>`;
+    panel.innerHTML = `<div><h4>Drop these <b>${f.opens.length}</b></h4>${tags(f.opens)}</div><div><h4>Get these <b>${f.to.length}</b></h4>${tags(f.to, 'hot')}</div><div><h4>Tools <b>${f.tools.length || ''}</b></h4>${f.tools.length ? tags(f.tools, 'tool') : '<p style="margin:0;color:var(--ink-3)">Conversion only</p>'}</div>`;
+    document.dispatchEvent(new CustomEvent('shortnut:format', { detail: name }));
   }
   tabs.innerHTML = Object.keys(FORMATS).map((k) => `<button role="tab" data-k="${k}">${k}</button>`).join('');
   tabs.addEventListener('click', (e) => e.target.dataset.k && showFormat(e.target.dataset.k));
@@ -118,9 +159,7 @@
   };
   const ico = (n, s = 17) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg>`;
 
-  $$('[data-ico]').forEach((el) => (el.innerHTML = ico(el.dataset.ico, 22)));
-
-  const MENUS = {
+    const MENUS = {
     img: {
       label: '1.2 MB',
       convert: ['WEBP', 'AVIF', 'JPG', 'GIF', 'BMP', 'PDF', 'ICO', 'TIFF'],

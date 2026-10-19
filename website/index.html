@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Shortnut — Convert files with just drag + Shift</title>
     <meta name="description" content="Shortnut is a free, open-source Windows app. Drag any file, tap Shift, and drop it on a format: images, PDFs, Word docs, video and audio — converted, compressed or edited in place, 100% offline." />
-    <meta name="theme-color" content="#ff5a36" />
+    <meta name="theme-color" content="#fff8f2" />
     <link rel="icon" href="assets/favicon.ico" sizes="any" />
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
@@ -16,24 +16,51 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Hide the hero for its entrance only when motion will run; un-hide if the motion library never arrives.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('js-motion');
+        setTimeout(() => window.Motion || document.documentElement.classList.remove('js-motion'), 2500);
+      }
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
+    <!-- Shared symbol: the Shortnut wheel, reused in the hero, the CTA and the illustrations. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <symbol id="wheel" viewBox="-50 -50 100 100">
+        <g fill="currentColor">
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(45)" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(90)" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(135)" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(180)" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(225)" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(270)" />
+          <path d="M-13.7 -44.9A47 47 0 0 1 13.7 -44.9L5.5 -24.9A25.5 25.5 0 0 0 -5.5 -24.9Z" transform="rotate(315)" />
+        </g>
+      </symbol>
+      <symbol id="win" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z" /></symbol>
+      <symbol id="arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></symbol>
+      <symbol id="arrow-ne" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M8 7h9v9" /></symbol>
+    </svg>
+
     <header class="nav" id="top">
       <div class="wrap nav-inner">
-        <a class="brand" href="#top" aria-label="Shortnut home"><img src="assets/logo.svg" alt="" width="30" height="30" /><span>Shortnut</span></a>
+        <a class="brand" href="#top" aria-label="Shortnut home"><img src="assets/logo.svg" alt="" width="26" height="26" /><span>Shortnut</span></a>
         <nav class="links" aria-label="Primary">
           <a href="#how">How it works</a>
-          <a href="#features">Features</a>
+          <a href="#tools">Tools</a>
           <a href="#formats">Formats</a>
+          <a href="#privacy">Privacy</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div class="nav-cta">
-          <a class="gh" data-repo href="#" aria-label="Source code on GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg></a>
-          <a class="btn btn-dark" data-download href="#download"><svg class="win" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z"/></svg>Download</a>
+          <a class="nav-gh" data-repo href="#">GitHub</a>
+          <a class="btn btn-ink" data-download href="#download"><svg width="13" height="13"><use href="#win" /></svg>Download</a>
         </div>
       </div>
     </header>
@@ -41,26 +68,76 @@
     <main id="main">
       <!-- ============ HERO ============ -->
       <section class="hero">
-        <div class="glow" aria-hidden="true"></div>
-        <div class="wrap hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow"><i></i>Free &amp; open source · Windows 10 &amp; 11</span>
-            <h1>Convert files with just <span class="keys"><span class="key">drag</span> + <span class="key key-shift">⇧ Shift</span></span></h1>
-            <p class="sub">Drag any file, tap Shift, drop it on a format. Shortnut converts, compresses and edits images, PDFs, documents, video and audio right where they are. No uploads, no windows to open, no waiting.</p>
-            <div class="cta-row">
-              <a class="btn btn-primary btn-lg" data-download href="#download">
-                <svg class="win" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z"/></svg>
-                Download for Windows
-              </a>
-              <a class="btn btn-ghost btn-lg" href="#demo">Try it in your browser</a>
+        <div class="wrap">
+          <div class="hero-top">
+            <p class="mono">Shortnut® — file converter for Windows 10 &amp; 11</p>
+            <p class="mono hero-top-r">Free · Open source · Offline</p>
+          </div>
+
+          <h1 class="headline" aria-label="Convert any file: drag it, tap Shift, drop it.">
+            <span class="hl hl-1" aria-hidden="true">Drag <span class="h-chip"><span class="h-thumb"></span><span class="h-name">Sunset.heic</span></span> it,</span>
+            <span class="hl hl-2" aria-hidden="true"><em>tap</em> <kbd class="h-key">⇧ Shift</kbd></span>
+            <span class="hl hl-3" aria-hidden="true">dr<svg class="h-wheel" viewBox="-50 -50 100 100"><use href="#wheel" x="-50" y="-50" width="100" height="100" /><circle r="13" /></svg>p it.</span>
+          </h1>
+
+          <div class="hero-foot">
+            <p class="hero-desc">Shortnut puts a converter behind the Shift key. Drag a photo, PDF, video or doc, tap Shift, and drop it on the format you want. The new file lands right next to the original.</p>
+
+            <div class="hero-cta">
+              <a class="big-link" data-download href="#download">Download<br />for Windows <svg width="34" height="34"><use href="#arrow" /></svg></a>
+              <p class="mono meta" id="release-meta">MIT licensed · 100% offline · No account</p>
             </div>
-            <p class="meta" id="release-meta">MIT licensed · 100% offline · No account</p>
+
+            <div class="hero-list">
+              <p class="mono label">Popular moves</p>
+              <ul>
+                <li><span>HEIC</span><svg width="14" height="14"><use href="#arrow" /></svg><span>JPG</span></li>
+                <li><span>PDF</span><svg width="14" height="14"><use href="#arrow" /></svg><span>DOCX</span></li>
+                <li><span>MOV</span><svg width="14" height="14"><use href="#arrow" /></svg><span>MP4</span></li>
+                <li><span>PNG</span><svg width="14" height="14"><use href="#arrow" /></svg><span>WEBP</span></li>
+              </ul>
+              <a class="see-more" href="#formats">All formats <svg width="14" height="14"><use href="#arrow" /></svg></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DEMO / HOW ============ -->
+      <section class="how" id="how">
+        <div class="wrap how-grid">
+          <div class="how-copy">
+            <p class="tag"><span class="tag-dot"></span>How it works</p>
+            <h2>Three moves.<br /><em>Zero</em> menus.</h2>
+            <ol class="how-steps">
+              <li>
+                <span class="mono n">01</span>
+                <div>
+                  <h3>Drag any file</h3>
+                  <p>From File Explorer, the desktop, a download bar or an email. Just like you already do.</p>
+                </div>
+              </li>
+              <li>
+                <span class="mono n">02</span>
+                <div>
+                  <h3>Tap <kbd>Shift</kbd></h3>
+                  <p>A wheel opens under your cursor. Tap Shift again to flip from formats to tools.</p>
+                </div>
+              </li>
+              <li>
+                <span class="mono n">03</span>
+                <div>
+                  <h3>Drop on a choice</h3>
+                  <p>JPG, PDF, MP3, Compress. The result is saved beside the original, which is never touched.</p>
+                </div>
+              </li>
+            </ol>
+            <p class="mono try">↳ Try it: drag a file on the desktop, then press Shift.</p>
           </div>
 
           <!-- Interactive demo -->
           <div class="demo" id="demo" aria-label="Interactive demo: drag a file and press Shift">
             <div class="desk" id="desk">
-              <div class="desk-bar"><span></span><span></span><span></span><b>Desktop</b></div>
+              <div class="desk-bar"><span></span><span></span><span></span><b>Desktop</b><i class="mono">shortnut is running</i></div>
               <div class="desk-hint" id="desk-hint">Drag a file, then tap <kbd>Shift</kbd></div>
               <div class="files" id="files"></div>
               <div class="dwheel" id="dwheel" hidden></div>
@@ -72,127 +149,244 @@
         </div>
       </section>
 
-      <!-- ============ STRIP ============ -->
-      <section class="strip" aria-label="Where it works">
-        <div class="wrap strip-inner">
-          <span>Works wherever you can drag a file</span>
-          <ul>
-            <li>File Explorer</li>
-            <li>Desktop</li>
-            <li>Browser downloads</li>
-            <li>Email attachments</li>
-            <li>Chat apps</li>
-            <li>Right-click menu</li>
+      <!-- ============ WHERE ============ -->
+      <section class="where" aria-label="Where it works">
+        <div class="wrap">
+          <p class="mono where-title">Works anywhere you can drag a file</p>
+          <ul class="where-grid">
+            <li><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>File Explorer</li>
+            <li><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></svg>Desktop</li>
+            <li><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>Browser downloads</li>
+            <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>Email attachments</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" /></svg>Chat apps</li>
+            <li><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>Right-click menu</li>
           </ul>
         </div>
       </section>
 
-      <!-- ============ HOW ============ -->
-      <section class="section" id="how">
+      <!-- ============ STATEMENT ============ -->
+      <section class="statement">
         <div class="wrap">
-          <p class="kicker">How it works</p>
-          <h2>Three moves. Zero menus.</h2>
-          <div class="steps">
-            <article class="step">
-              <div class="step-art art-drag" aria-hidden="true"><div class="mini-file"></div></div>
-              <span class="num">1</span>
-              <h3>Drag any file</h3>
-              <p>Pick up a photo, PDF, video or document from anywhere in Windows, just like you always do.</p>
-            </article>
-            <article class="step">
-              <div class="step-art art-key" aria-hidden="true"><span class="key big">⇧ Shift</span></div>
-              <span class="num">2</span>
-              <h3>Tap Shift</h3>
-              <p>A wheel of options opens under your cursor. Tap Shift again to flip between formats and tools.</p>
-            </article>
-            <article class="step">
-              <div class="step-art art-drop" aria-hidden="true"><div class="mini-wheel"></div></div>
-              <span class="num">3</span>
-              <h3>Drop on a choice</h3>
-              <p>Release on JPG, PDF, MP3 or Compress. The new file lands next to the original, which is never touched.</p>
-            </article>
-          </div>
+          <p class="tag"><span class="tag-dot"></span>Why Shortnut</p>
+          <p class="big-text">
+            Shortnut turns one key into a whole toolbox for
+            <span class="ichip c-img" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" /><circle cx="9" cy="9" r="1.6" /><path d="m20 15-4.5-4.5L6 20" /></svg></span> images,
+            <span class="ichip c-pdf" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z" /><path d="M14 3v4h4M9 13h6M9 17h4" /></svg></span> PDFs,
+            <span class="ichip c-vid" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2" /><path d="m16 10 5-3v10l-5-3" /></svg></span> video
+            <span class="fade">and <span class="ichip c-aud" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12" /><circle cx="6" cy="18" r="3" /><circle cx="17" cy="16" r="3" /></svg></span> audio, without opening an app, uploading a byte or waiting on a progress page.</span>
+          </p>
+
+          <dl class="stats">
+            <div><dt>40+</dt><dd>formats in and out</dd></div>
+            <div><dt>0</dt><dd>bytes uploaded, ever</dd></div>
+            <div><dt>1</dt><dd>key to remember</dd></div>
+            <div><dt>MIT</dt><dd>licensed, free forever</dd></div>
+          </dl>
         </div>
       </section>
 
-      <!-- ============ FEATURES ============ -->
-      <section class="section alt" id="features">
+      <!-- ============ TOOLS ============ -->
+      <section class="tools" id="tools">
         <div class="wrap">
-          <p class="kicker">Everything in one gesture</p>
-          <h2>A whole toolbox behind one key.</h2>
-          <div class="features">
-            <article class="feature big">
-              <div class="f-icon" data-ico="convert"></div>
-              <h3>Convert 40+ formats</h3>
-              <p>JPG, PNG, WEBP, AVIF, HEIC, GIF, ICO, PDF, DOCX, Markdown, MP4, MOV, WEBM, MP3, WAV, FLAC and more. Batch convert by dragging several files at once.</p>
-              <div class="chips"><span>PNG → WEBP</span><span>HEIC → JPG</span><span>PDF → DOCX</span><span>MOV → MP4</span><span>MP4 → GIF</span><span>WAV → MP3</span></div>
-            </article>
-            <article class="feature"><div class="f-icon" data-ico="compress"></div><h3>Compress</h3><p>Shrink images, PDFs, videos and audio. See exactly how much you saved.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="crop"></div><h3>Crop</h3><p>Free or locked ratios (1:1, 16:9, 4:3…) with pixel-exact sizing.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="image"></div><h3>Add background</h3><p>Gradients, colors or your own image with padding, rounded corners and shadow. Perfect for screenshots.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="pen"></div><h3>Annotate</h3><p>Arrows, boxes, circles, highlighter, pen and text with undo.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="eyeoff"></div><h3>Redact</h3><p>Black out, pixelate or blur private details. Permanently, in the saved copy.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="tag"></div><h3>Metadata</h3><p>See what a photo reveals, like GPS location and camera, and strip it in one click.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="sliders"></div><h3>Edit</h3><p>Brightness, contrast, saturation, looks, rotate, flip and resize.</p></article>
-            <article class="feature"><div class="f-icon" data-ico="split"></div><h3>PDF tools</h3><p>Merge, split, rotate, compress, extract pages and edit document info.</p></article>
+          <div class="sec-head">
+            <h2>A whole toolbox<br />behind <em>one key.</em></h2>
+            <p class="sec-side">Tap Shift twice mid-drag and the wheel flips from formats to tools. Each one saves a new copy and leaves your original alone.</p>
+          </div>
+
+          <div class="acc">
+            <details class="acc-item a-1" name="tools" open>
+              <summary><span class="mono">01</span><span class="acc-t">Convert</span><span class="acc-k mono">40+ formats</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>JPG, PNG, WEBP, AVIF, HEIC, GIF, ICO, PDF, DOCX, Markdown, MP4, MOV, WEBM, MP3, WAV, FLAC and more. Drag several files at once to batch convert.</p>
+                  <div class="chips"><span>PNG → WEBP</span><span>HEIC → JPG</span><span>PDF → DOCX</span><span>MOV → MP4</span><span>MP4 → GIF</span><span>WAV → MP3</span></div>
+                </div>
+                <div class="ill ill-convert" aria-hidden="true">
+                  <div class="f-card"><div class="f-pic"></div><b>Sunset.heic</b><small>4.1 MB</small></div>
+                  <svg class="ill-arrow" width="44" height="44"><use href="#arrow" /></svg>
+                  <div class="f-card is-new"><div class="f-pic"></div><b>Sunset.jpg</b><small>1.2 MB</small></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc-item a-2" name="tools">
+              <summary><span class="mono">02</span><span class="acc-t">Compress</span><span class="acc-k mono">images · pdf · video · audio</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>Shrink images, PDFs, videos and audio to share-friendly sizes. Shortnut shows exactly how much you saved.</p>
+                </div>
+                <div class="ill ill-compress" aria-hidden="true">
+                  <div class="bar-row"><span class="mono">Before</span><div class="bar"><i style="width: 100%"></i></div><b>1.2 MB</b></div>
+                  <div class="bar-row"><span class="mono">After</span><div class="bar"><i class="hot" style="width: 34%"></i></div><b>412 KB</b></div>
+                  <p class="saved"><span>−66%</span> smaller, same look</p>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc-item a-3" name="tools">
+              <summary><span class="mono">03</span><span class="acc-t">Crop &amp; edit</span><span class="acc-k mono">ratios · resize · looks</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>Free or locked ratios (1:1, 16:9, 4:3) with pixel-exact sizing. Brightness, contrast, saturation, looks, rotate, flip and resize.</p>
+                </div>
+                <div class="ill ill-crop" aria-hidden="true">
+                  <div class="crop-pic">
+                    <div class="crop-frame"><i></i><i></i><i></i><i></i></div>
+                  </div>
+                  <div class="ratios"><span>Free</span><span class="on">1:1</span><span>16:9</span><span>4:3</span></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc-item a-4" name="tools">
+              <summary><span class="mono">04</span><span class="acc-t">Annotate &amp; redact</span><span class="acc-k mono">arrows · blur · black out</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>Arrows, boxes, circles, highlighter, pen and text with undo. Black out, pixelate or blur private details, permanently, in the saved copy.</p>
+                </div>
+                <div class="ill ill-redact" aria-hidden="true">
+                  <div class="doc">
+                    <p class="doc-h">Invoice #2041</p>
+                    <p class="ln">Name <span class="blk"></span></p>
+                    <p class="ln">Card <span class="pix"></span></p>
+                    <p class="ln">Total <b>€ 240.00</b></p>
+                    <span class="ring-mark"></span>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc-item a-5" name="tools">
+              <summary><span class="mono">05</span><span class="acc-t">Add background</span><span class="acc-k mono">for screenshots</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>Drop a screenshot on a gradient, a color or your own image, with padding, rounded corners and a soft shadow. Ready to post.</p>
+                </div>
+                <div class="ill ill-bg" aria-hidden="true">
+                  <div class="shot"><div class="shot-bar"><i></i><i></i><i></i></div><div class="shot-body"><span></span><span></span><span></span></div></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc-item a-6" name="tools">
+              <summary><span class="mono">06</span><span class="acc-t">Metadata</span><span class="acc-k mono">see it · strip it</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>See what a photo quietly reveals, like GPS location, camera and time, and strip all of it in one click.</p>
+                </div>
+                <div class="ill ill-meta" aria-hidden="true">
+                  <ul>
+                    <li><span class="mono">GPS</span><s>48.8584° N, 2.2945° E</s></li>
+                    <li><span class="mono">Camera</span><s>Pixel 8 Pro</s></li>
+                    <li><span class="mono">Taken</span><s>12 Jun 2026, 19:42</s></li>
+                  </ul>
+                  <span class="strip-pill">Stripped ✓</span>
+                </div>
+              </div>
+            </details>
+
+            <details class="acc-item a-7" name="tools">
+              <summary><span class="mono">07</span><span class="acc-t">PDF tools</span><span class="acc-k mono">merge · split · rotate</span><i class="acc-ico" aria-hidden="true"></i></summary>
+              <div class="acc-body">
+                <div class="acc-copy">
+                  <p>Merge, split, rotate, compress, extract pages and edit document info, without a PDF editor.</p>
+                </div>
+                <div class="ill ill-pdf" aria-hidden="true">
+                  <div class="pg p1"><span>1</span></div>
+                  <div class="pg p2"><span>2</span></div>
+                  <div class="pg p3"><span>3</span></div>
+                  <svg class="ill-arrow" width="40" height="40"><use href="#arrow" /></svg>
+                  <div class="pg merged"><span>1–3</span></div>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </section>
 
       <!-- ============ FORMATS ============ -->
-      <section class="section" id="formats">
+      <section class="formats" id="formats">
         <div class="wrap">
-          <p class="kicker">Formats</p>
-          <h2>What you can drop, and what you get.</h2>
-          <div class="tabs" role="tablist" id="fmt-tabs"></div>
-          <div class="fmt-panel" id="fmt-panel" role="tabpanel"></div>
+          <div class="sec-head">
+            <h2>What you drop,<br /><em>what you get.</em></h2>
+            <p class="sec-side">Pick a file type to see every input Shortnut opens, every output it writes and the tools on the wheel.</p>
+          </div>
+          <div class="fmt">
+            <div class="tabs" role="tablist" id="fmt-tabs" aria-label="File types"></div>
+            <div class="fmt-panel" id="fmt-panel" role="tabpanel"></div>
+          </div>
         </div>
       </section>
 
       <!-- ============ PRIVACY ============ -->
-      <section class="privacy">
-        <div class="wrap privacy-grid">
-          <div>
-            <p class="kicker light">Private by design</p>
-            <h2>Your files never leave your PC.</h2>
-            <p>Every conversion runs locally on your machine. Nothing is uploaded, there's no account, and there's no telemetry. Shortnut works on a plane, and on confidential documents.</p>
+      <section class="privacy" id="privacy">
+        <div class="wrap">
+          <p class="tag tag-dark"><span class="tag-dot"></span>Private by design</p>
+          <h2 class="privacy-h">Your files never<br />leave <em>your PC.</em></h2>
+
+          <div class="privacy-grid">
+            <div class="flow" aria-label="Everything runs on your PC">
+              <p class="mono flow-cap">Your PC</p>
+              <div class="flow-row">
+                <div class="flow-node"><span class="mono">in</span><b>Contract.pdf</b></div>
+                <span class="flow-line"></span>
+                <div class="flow-node engine">
+                  <svg width="28" height="28" viewBox="-50 -50 100 100"><use href="#wheel" x="-50" y="-50" width="100" height="100" /></svg>
+                  <b>Shortnut</b><span class="mono">libvips · FFmpeg · pdf-lib</span>
+                </div>
+                <span class="flow-line"></span>
+                <div class="flow-node"><span class="mono">out</span><b>Contract.docx</b></div>
+              </div>
+              <div class="cloud-off">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path d="M7 18h10a4 4 0 0 0 .7-7.9A6 6 0 0 0 6.2 9.1 4.5 4.5 0 0 0 7 18z" /><path d="M3 3l18 18" /></svg>
+                <span class="mono">Internet: not needed</span>
+              </div>
+            </div>
+
+            <ul class="checks">
+              <li><span class="mono">01</span>Runs fully offline, even on a plane</li>
+              <li><span class="mono">02</span>Originals are never modified</li>
+              <li><span class="mono">03</span>Never overwrites: duplicates become “(2)”</li>
+              <li><span class="mono">04</span>Strips location data by default</li>
+              <li><span class="mono">05</span>No account, no telemetry</li>
+              <li><span class="mono">06</span>Open source: read every line</li>
+            </ul>
           </div>
-          <ul class="checks">
-            <li>Runs fully offline</li>
-            <li>Originals are never modified</li>
-            <li>Never overwrites: duplicates become “(2)”</li>
-            <li>Strips location data by default</li>
-            <li>Open source: read every line</li>
-          </ul>
         </div>
       </section>
 
       <!-- ============ OPEN SOURCE ============ -->
-      <section class="section">
-        <div class="wrap oss">
+      <section class="oss" id="source">
+        <div class="wrap oss-grid">
           <div>
-            <p class="kicker">Open source</p>
-            <h2>Free, forever. MIT licensed.</h2>
-            <p class="lead">Shortnut is built in the open on Electron, FFmpeg, libvips, pdf.js and pdf-lib. Fork it, audit it, improve it. Pull requests are welcome.</p>
+            <p class="tag"><span class="tag-dot"></span>Open source</p>
+            <h2>Free, forever.<br /><em>MIT licensed.</em></h2>
+            <p class="lead">Built in the open on Electron, FFmpeg, libvips, pdf.js and pdf-lib. Fork it, audit it, improve it. Pull requests are welcome.</p>
             <div class="cta-row">
-              <a class="btn btn-dark" data-repo href="#">Star on GitHub</a>
-              <a class="btn btn-ghost" data-repo-path="/blob/main/LICENSE" href="#">Read the license</a>
+              <a class="btn btn-ink" data-repo href="#">Star on GitHub <svg width="15" height="15"><use href="#arrow-ne" /></svg></a>
+              <a class="btn btn-line" data-repo-path="/blob/main/LICENSE" href="#">Read the license</a>
             </div>
           </div>
-          <pre class="code" aria-label="Build from source"><code><span class="c"># build it yourself</span>
-git clone <span data-repo-text>https://github.com/Rachit315/Shortnut</span>
-cd shortnut/app
-npm install
-npm start        <span class="c"># run</span>
-npm run dist     <span class="c"># make the installer</span></code></pre>
+          <div class="term" aria-label="Build from source">
+            <div class="term-bar"><span></span><span></span><span></span><b class="mono">PowerShell</b></div>
+            <pre><code><span class="c"># build it yourself</span>
+<span class="p">&gt;</span> git clone <span data-repo-text>https://github.com/Rachit315/Shortnut</span>
+<span class="p">&gt;</span> cd Shortnut/app
+<span class="p">&gt;</span> npm install
+<span class="p">&gt;</span> npm start        <span class="c"># run</span>
+<span class="p">&gt;</span> npm run dist     <span class="c"># make the installer</span></code></pre>
+          </div>
         </div>
       </section>
 
       <!-- ============ FAQ ============ -->
-      <section class="section alt" id="faq">
-        <div class="wrap narrow">
-          <p class="kicker">FAQ</p>
-          <h2>Questions, answered.</h2>
+      <section class="faq-sec" id="faq">
+        <div class="wrap faq-grid">
+          <div class="faq-head">
+            <p class="tag"><span class="tag-dot"></span>FAQ</p>
+            <h2>Questions,<br /><em>answered.</em></h2>
+            <p class="sec-side">Something else? <a data-repo-path="/issues" href="#">Open an issue on GitHub</a>.</p>
+          </div>
           <div class="faq">
             <details open>
               <summary>Is Shortnut really free?</summary>
@@ -228,34 +422,46 @@ npm run dist     <span class="c"># make the installer</span></code></pre>
 
       <!-- ============ DOWNLOAD ============ -->
       <section class="final" id="download">
-        <div class="glow" aria-hidden="true"></div>
-        <div class="wrap final-inner">
-          <img src="assets/logo.svg" alt="" width="84" height="84" />
-          <h2>Make every drag count.</h2>
-          <p>Download Shortnut for Windows and convert your first file in ten seconds.</p>
-          <a class="btn btn-light btn-lg" data-download data-direct href="#">
-            <svg class="win" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3zm8.3-1.2L21 2.5v8.7h-9.7zM3 12.8h7.4V20L3 18.9zm8.3 0H21v8.7l-9.7-1.4z"/></svg>
-            Download for Windows
-          </a>
-          <p class="fine" id="download-fine">Windows 10/11 · 64-bit · Free &amp; open source</p>
-          <p class="fine os-note" id="os-note" hidden>Looks like you're not on Windows. Shortnut currently runs on Windows only.</p>
+        <div class="wrap">
+          <div class="final-card">
+            <svg class="final-wheel" viewBox="-50 -50 100 100" aria-hidden="true"><use href="#wheel" x="-50" y="-50" width="100" height="100" /></svg>
+            <p class="mono final-k">Ready when you are</p>
+            <h2>Make every<br /><em>drag</em> count.</h2>
+            <p class="final-sub">Download Shortnut for Windows and convert your first file in ten seconds.</p>
+            <a class="btn btn-cream btn-lg" data-download data-direct href="#download">
+              <svg width="16" height="16"><use href="#win" /></svg>
+              <span data-label>Download for Windows</span>
+            </a>
+            <p class="no-release" id="no-release" hidden>
+              The first Windows installer is on its way. Watch the repo to get it the moment it ships, or
+              <a href="#source">build it from source</a> in a few minutes.
+            </p>
+            <p class="mono fine" id="download-fine">Windows 10/11 · 64-bit · Free &amp; open source</p>
+            <p class="mono fine os-note" id="os-note" hidden>Looks like you're not on Windows. Shortnut currently runs on Windows only.</p>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="wrap footer-inner">
-        <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="24" height="24" /><span>Shortnut</span></a>
-        <p>© <span id="year">2026</span> Shortnut contributors · MIT License</p>
-        <nav aria-label="Footer">
-          <a data-repo href="#">GitHub</a>
-          <a data-repo-path="/issues" href="#">Report a bug</a>
-          <a href="#faq">FAQ</a>
-        </nav>
+      <div class="wrap">
+        <div class="footer-row">
+          <p class="mono">© <span id="year">2026</span> Shortnut contributors · MIT License</p>
+          <nav aria-label="Footer">
+            <a data-repo href="#">GitHub</a>
+            <a data-repo-path="/issues" href="#">Report a bug</a>
+            <a href="#faq">FAQ</a>
+            <a href="#top">Back to top ↑</a>
+          </nav>
+        </div>
+        <p class="wordmark" aria-hidden="true">Shortnut</p>
       </div>
     </footer>
 
     <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/motion@12.23.24/dist/motion.js" defer></script>
     <script src="main.js" defer></script>
+    <script src="fx.js" defer></script>
   </body>
 </html>

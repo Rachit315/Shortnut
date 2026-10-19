@@ -3,10 +3,10 @@ window.SHORTNUT = {
   // Public source repository (used for every GitHub link on the page).
   repo: 'https://github.com/Rachit315/Shortnut',
 
-  // Where the installer is downloaded from.
-  //  - "release.json" (default): served from this site's /downloads folder. `npm run dist` in /app copies the
-  //    installer there and writes release.json with version, size and SHA-256.
-  //  - Or set `downloadUrl` to a fixed URL such as GitHub Releases:
-  //    'https://github.com/Rachit315/Shortnut/releases/latest/download/Shortnut-Setup.exe'
+  // Where the installer is downloaded from. By default the page asks GitHub for the latest release of `repo` and links
+  // its .exe directly; if no release is published yet, the buttons explain that instead of linking to a missing file.
+  //  - Set `downloadUrl` to force one fixed installer URL.
+  //  - Set `selfHosted: true` if you deploy website/downloads/ (written by `npm run dist` in /app) with the site.
   downloadUrl: null,
+  selfHosted: false,
 };
